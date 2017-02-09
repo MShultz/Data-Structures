@@ -20,10 +20,12 @@ public class SingleLinkedList<T> {
 
 	public void insert(T value, int index) {
 		if (index >= 0 && index < count && count > 0) {
-			Node<T> current = getSpecificNode(index - 1);
-			Node<T> newNode = new Node<T>(current.getNext(), value);
-			current.setNext(newNode);
-			if (index == 0)
+			Node<T> current = getSpecificNode(index);
+			Node<T> newNode = new Node<T>(current, value);
+			if(index != 0){
+				Node<T> previous = getSpecificNode(index-1);
+				previous.setNext(newNode);
+			}else
 				this.setHead(newNode);
 			++count;
 		} else {
