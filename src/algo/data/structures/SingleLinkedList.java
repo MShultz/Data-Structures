@@ -8,9 +8,11 @@ public class SingleLinkedList<T> {
 	private int count = 0;
 
 	public void add(T value) {
-		if (count == 0)
-			this.setHead(new Node<T>(null, value));
-		else {
+		if (count == 0){
+			Node<T> newNode = new Node<T>(null, value);
+			this.setHead(newNode);
+			this.setTail(newNode);
+		}else {
 			tail.setNext(new Node<T>(null, value));
 		}
 		++count;
@@ -37,7 +39,7 @@ public class SingleLinkedList<T> {
 		}
 	}
 
-	public int getCount() {
+	public int count() {
 		return count;
 	}
 
@@ -45,6 +47,7 @@ public class SingleLinkedList<T> {
 		if (count > 0) {
 			Node<T> toRemove = head;
 			this.setHead(getSpecificNode(1));
+			--count;
 			return toRemove.getValue();
 		} else
 			throw new NoSuchElementException("The list is Empty");
@@ -54,6 +57,7 @@ public class SingleLinkedList<T> {
 	public T removeAt(int index) {
 		if (index >= 0 && index < count && count > 0) {
 			getSpecificNode(index - 1).setNext(getSpecificNode(index + 1));
+			--count;
 			return getSpecificNode(index).getValue();
 		} else {
 			throw new IndexOutOfBoundsException("Invalid index: " + index + " for list size: " + count);
@@ -64,11 +68,17 @@ public class SingleLinkedList<T> {
 	public T removeLast() {
 		Node<T> toRemove = tail;
 		if (count > 0) {
-			Node<T> newTail = getSpecificNode(count - 2);
-			newTail.setNext(null);
-			this.setTail(newTail);
-		} else
-			clear();
+			if (count >= 1) {
+				Node<T> newTail = getSpecificNode(count - 2);
+				newTail.setNext(null);
+				this.setTail(newTail);
+				--count;
+			} else
+				clear();
+		} else {
+			throw new NoSuchElementException("The list is Empty");
+		}
+		
 		return toRemove.getValue();
 	}
 
@@ -88,6 +98,7 @@ public class SingleLinkedList<T> {
 	public void clear() {
 		this.setHead(null);
 		this.setTail(null);
+		count = 0;
 	}
 
 	public int search(T value) {
@@ -100,6 +111,10 @@ public class SingleLinkedList<T> {
 			temp = temp.getNext();
 		}
 		return index;
+	}
+	
+	public boolean isEmpty(){
+		return count == 0;
 	}
 
 	private Node<T> getSpecificNode(int index) {
