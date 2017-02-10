@@ -8,12 +8,13 @@ public class SingleLinkedList<T> {
 	private int count = 0;
 
 	public void add(T value) {
-		if (count == 0){
+		if (count == 0) {
 			Node<T> newNode = new Node<T>(null, value);
 			this.setHead(newNode);
 			this.setTail(newNode);
-		}else {
+		} else {
 			tail.setNext(new Node<T>(null, value));
+			tail = tail.getNext();
 		}
 		++count;
 	}
@@ -22,10 +23,10 @@ public class SingleLinkedList<T> {
 		if (index >= 0 && index < count && count > 0) {
 			Node<T> current = getSpecificNode(index);
 			Node<T> newNode = new Node<T>(current, value);
-			if(index != 0){
-				Node<T> previous = getSpecificNode(index-1);
+			if (index != 0) {
+				Node<T> previous = getSpecificNode(index - 1);
 				previous.setNext(newNode);
-			}else
+			} else
 				this.setHead(newNode);
 			++count;
 		} else {
@@ -58,9 +59,13 @@ public class SingleLinkedList<T> {
 
 	public T removeAt(int index) {
 		if (index >= 0 && index < count && count > 0) {
-			getSpecificNode(index - 1).setNext(getSpecificNode(index + 1));
+			Node<T> nodeToRemove = getSpecificNode(index);
+			if (index > 0)
+				getSpecificNode(index - 1).setNext(getSpecificNode(index + 1));
+			else
+				head = getSpecificNode(index + 1);
 			--count;
-			return getSpecificNode(index).getValue();
+			return nodeToRemove.getValue();
 		} else {
 			throw new IndexOutOfBoundsException("Invalid index: " + index + " for list size: " + count);
 		}
@@ -80,21 +85,21 @@ public class SingleLinkedList<T> {
 		} else {
 			throw new NoSuchElementException("The list is Empty");
 		}
-		
+
 		return toRemove.getValue();
 	}
 
 	@Override
 	public String toString() {
 		Node<T> temp = head;
-		StringBuilder response = new StringBuilder();
+		String response = "";
 		while (temp != null) {
-			response.append(temp.getValue().toString());
-			temp.getNext();
+			response += temp.getValue().toString();
+			temp = temp.getNext();
 			if (temp != null)
-				response.append(", ");
+				response += ", ";
 		}
-		return response.toString();
+		return response;
 	}
 
 	public void clear() {
@@ -105,17 +110,19 @@ public class SingleLinkedList<T> {
 
 	public int search(T value) {
 		int index = -1;
-		boolean found = false;
-		Node<T> temp = head;
-		for (int i = 0; i < count && !found; ++i) {
-			if (temp.getValue().equals(value))
-				index = i;
-			temp = temp.getNext();
+		if (!isEmpty()) {
+			boolean found = false;
+			Node<T> temp = head;
+			for (int i = 0; i < count && !found; ++i) {
+				if (temp.getValue().equals(value))
+					index = i;
+				temp = temp.getNext();
+			}
 		}
 		return index;
 	}
-	
-	public boolean isEmpty(){
+
+	public boolean isEmpty() {
 		return count == 0;
 	}
 
