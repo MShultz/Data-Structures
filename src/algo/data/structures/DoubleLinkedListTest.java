@@ -201,7 +201,9 @@ public class DoubleLinkedListTest {
 		removeAtFromEmpty(doubleLink);
 		removeAtFromOne(doubleLink);
 		removeAtFromMultiple(doubleLink);
-
+		removeAtFromMultiple2(doubleLink);
+		doubleLink.clear();
+		removeAtFromMultiple3(doubleLink);
 	}
 
 	private void removeAtFromEmpty(DoubleLinkedList<String> doubleLink) {
@@ -226,6 +228,44 @@ public class DoubleLinkedListTest {
 		doubleLink.clear();
 		removeAtFromLast(doubleLink);
 		doubleLink.clear();
+	}
+	private void removeAtFromMultiple2(DoubleLinkedList<String> doubleLink) {
+		doubleLink.add("Dog");
+		doubleLink.add("Cat");
+		doubleLink.add("Bird");
+		doubleLink.add("Chimp");
+		doubleLink.add("Hamster");
+		doubleLink.add("Frog");
+		doubleLink.add("Fish");
+		doubleLink.add("Snake");
+		doubleLink.add("Mouse");
+		doubleLink.add("Ant");
+		String list = doubleLink.toString();
+		
+		assertEquals("Frog", doubleLink.removeAt(5));
+		list = doubleLink.toString();
+		assertEquals("Hamster", doubleLink.get(4));
+		assertEquals("Fish", doubleLink.get(5));
+		assertEquals("Dog, Cat, Bird, Chimp, Hamster, Fish, Snake, Mouse, Ant", doubleLink.toString());
+	}
+	private void removeAtFromMultiple3(DoubleLinkedList<String> doubleLink) {
+		doubleLink.add("Dog");
+		doubleLink.add("Cat");
+		doubleLink.add("Bird");
+		doubleLink.add("Chimp");
+		doubleLink.add("Hamster");
+		doubleLink.add("Frog");
+		doubleLink.add("Fish");
+		doubleLink.add("Snake");
+		doubleLink.add("Mouse");
+		doubleLink.add("Ant");
+		String list = doubleLink.toString();
+		
+		assertEquals("Ant", doubleLink.removeAt(9));
+		list = doubleLink.toString();
+		assertEquals("Hamster", doubleLink.get(4));
+		assertEquals("Mouse", doubleLink.get(8));
+		assertEquals("Dog, Cat, Bird, Chimp, Hamster, Frog, Fish, Snake, Mouse", doubleLink.toString());
 	}
 
 	private void removeAtFromMiddle(DoubleLinkedList<String> doubleLink) {

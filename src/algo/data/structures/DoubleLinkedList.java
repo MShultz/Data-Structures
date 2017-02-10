@@ -62,14 +62,19 @@ public class DoubleLinkedList<T> extends SingleLinkedList<T> {
 	public T removeAt(int index) {
 		if (index >= 0 && index < count && count > 0) {
 			Node<T> nodeToRemove = getSpecificNode(index);
-			Node<T> after = getSpecificNode(index + 1);
-			if (index > 0) {
-				Node<T> before = getSpecificNode(index - 1);
+			Node<T> after = nodeToRemove.getNext();
+			Node<T> before = nodeToRemove.getPrevious();
+			if (index > 0 && index != count - 1) {
 				before.setNext(after);
 				after.setPrevious(before);
-			} else
+			} else if (index == 0){
+				after.setPrevious(null);
 				this.setHead(after);
-			--count;
+			}else{
+				before.setNext(null);
+				this.setTail(before);
+			}
+				--count;
 			return nodeToRemove.getValue();
 		} else {
 			throw new IndexOutOfBoundsException("Invalid index: " + index + " for list size: " + count);
@@ -105,7 +110,7 @@ public class DoubleLinkedList<T> extends SingleLinkedList<T> {
 		} else {
 			temp = tail;
 			for (int i = count - 1; i > index; --i) {
-				temp = temp.getNext();
+				temp = temp.getPrevious();
 			}
 		}
 		return temp;
