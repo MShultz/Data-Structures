@@ -3,9 +3,9 @@ package algo.data.structures;
 import java.util.NoSuchElementException;
 
 public class SingleLinkedList<T> {
-	private Node<T> head;
-	private Node<T> tail;
-	private int count = 0;
+	protected Node<T> head;
+	protected Node<T> tail;
+	protected int count = 0;
 
 	public void add(T value) {
 		if (count == 0) {
@@ -42,7 +42,7 @@ public class SingleLinkedList<T> {
 		}
 	}
 
-	public int count() {
+	 public int count() {
 		return count;
 	}
 
@@ -75,7 +75,7 @@ public class SingleLinkedList<T> {
 	public T removeLast() {
 		Node<T> toRemove = tail;
 		if (count > 0) {
-			if (count >= 1) {
+			if (count > 1) {
 				Node<T> newTail = getSpecificNode(count - 2);
 				newTail.setNext(null);
 				this.setTail(newTail);
@@ -126,7 +126,7 @@ public class SingleLinkedList<T> {
 		return count == 0;
 	}
 
-	private Node<T> getSpecificNode(int index) {
+	protected Node<T> getSpecificNode(int index) {
 		Node<T> temp = head;
 		for (int i = 1; i <= index; ++i) {
 			temp = temp.getNext();
@@ -134,11 +134,11 @@ public class SingleLinkedList<T> {
 		return temp;
 	}
 
-	private void setHead(Node<T> head) {
+	protected void setHead(Node<T> head) {
 		this.head = head;
 	}
 
-	private void setTail(Node<T> tail) {
+	protected void setTail(Node<T> tail) {
 		this.tail = tail;
 	}
 
