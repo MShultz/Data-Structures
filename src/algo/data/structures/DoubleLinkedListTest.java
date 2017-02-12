@@ -162,6 +162,7 @@ public class DoubleLinkedListTest {
 		removeFromEmpty(doubleLink);
 		addFirstObject(doubleLink);
 		removeFromOne(doubleLink);
+		removeAll(doubleLink);
 		addTwoObjects(doubleLink);
 		removeFromMultiple(doubleLink);
 	}
@@ -176,10 +177,12 @@ public class DoubleLinkedListTest {
 	}
 
 	private void removeFromOne(DoubleLinkedList<String> doubleLink) {
+		assertEquals("Dog", doubleLink.toString());
 		String removedString = doubleLink.remove();
 		assertEquals("Dog", removedString);
 		assertTrue(doubleLink.isEmpty());
 		assertEquals(0, doubleLink.count());
+		assertEquals("", doubleLink.toString());
 	}
 
 	private void removeFromMultiple(DoubleLinkedList<String> doubleLink) {
@@ -195,6 +198,45 @@ public class DoubleLinkedListTest {
 
 	}
 
+	public void removeAll(DoubleLinkedList<String> doubleLink) {
+		addMany(doubleLink);
+		assertEquals("Dog, Cat, Bird, Chimp, Hamster, Frog, Fish, Snake, Mouse, Ant", doubleLink.toString());
+		doubleLink.remove();
+		assertEquals("Cat, Bird, Chimp, Hamster, Frog, Fish, Snake, Mouse, Ant", doubleLink.toString());
+		doubleLink.remove();
+		assertEquals("Bird, Chimp, Hamster, Frog, Fish, Snake, Mouse, Ant", doubleLink.toString());
+		doubleLink.remove();
+		assertEquals("Chimp, Hamster, Frog, Fish, Snake, Mouse, Ant", doubleLink.toString());
+		doubleLink.remove();
+		assertEquals("Hamster, Frog, Fish, Snake, Mouse, Ant", doubleLink.toString());
+		doubleLink.remove();
+		assertEquals("Frog, Fish, Snake, Mouse, Ant", doubleLink.toString());
+		doubleLink.remove();
+		assertEquals("Fish, Snake, Mouse, Ant", doubleLink.toString());
+		doubleLink.remove();
+		assertEquals("Snake, Mouse, Ant", doubleLink.toString());
+		doubleLink.remove();
+		assertEquals("Mouse, Ant", doubleLink.toString());
+		doubleLink.remove();
+		assertEquals("Ant", doubleLink.toString());
+		doubleLink.remove();
+		assertEquals("", doubleLink.toString());
+
+	}
+
+	private void addMany(DoubleLinkedList<String> doubleLink) {
+		doubleLink.add("Dog");
+		doubleLink.add("Cat");
+		doubleLink.add("Bird");
+		doubleLink.add("Chimp");
+		doubleLink.add("Hamster");
+		doubleLink.add("Frog");
+		doubleLink.add("Fish");
+		doubleLink.add("Snake");
+		doubleLink.add("Mouse");
+		doubleLink.add("Ant");
+	}
+
 	@Test
 	public void removeAtTest() {
 		DoubleLinkedList<String> doubleLink = new DoubleLinkedList<String>();
@@ -204,6 +246,8 @@ public class DoubleLinkedListTest {
 		removeAtFromMultiple2(doubleLink);
 		doubleLink.clear();
 		removeAtFromMultiple3(doubleLink);
+		doubleLink.clear();
+
 	}
 
 	private void removeAtFromEmpty(DoubleLinkedList<String> doubleLink) {
@@ -229,6 +273,7 @@ public class DoubleLinkedListTest {
 		removeAtFromLast(doubleLink);
 		doubleLink.clear();
 	}
+
 	private void removeAtFromMultiple2(DoubleLinkedList<String> doubleLink) {
 		doubleLink.add("Dog");
 		doubleLink.add("Cat");
@@ -241,13 +286,14 @@ public class DoubleLinkedListTest {
 		doubleLink.add("Mouse");
 		doubleLink.add("Ant");
 		String list = doubleLink.toString();
-		
+
 		assertEquals("Frog", doubleLink.removeAt(5));
 		list = doubleLink.toString();
 		assertEquals("Hamster", doubleLink.get(4));
 		assertEquals("Fish", doubleLink.get(5));
 		assertEquals("Dog, Cat, Bird, Chimp, Hamster, Fish, Snake, Mouse, Ant", doubleLink.toString());
 	}
+
 	private void removeAtFromMultiple3(DoubleLinkedList<String> doubleLink) {
 		doubleLink.add("Dog");
 		doubleLink.add("Cat");
@@ -260,7 +306,7 @@ public class DoubleLinkedListTest {
 		doubleLink.add("Mouse");
 		doubleLink.add("Ant");
 		String list = doubleLink.toString();
-		
+
 		assertEquals("Ant", doubleLink.removeAt(9));
 		list = doubleLink.toString();
 		assertEquals("Hamster", doubleLink.get(4));
@@ -399,6 +445,28 @@ public class DoubleLinkedListTest {
 		assertEquals(1, doubleLink.search("Cat"));
 		assertEquals(2, doubleLink.search("Bird"));
 		assertEquals(-1, doubleLink.search("Chimp"));
+		doubleLink.clear();
+		searchForDuplicate(doubleLink);
+	}
+
+	private void searchForDuplicate(DoubleLinkedList<String> doubleLink) {
+		doubleLink.add("Dog");
+		doubleLink.add("Cat");
+		doubleLink.add("Bird");
+		doubleLink.add("Chimp");
+		doubleLink.add("Hamster");
+		doubleLink.add("Frog");
+		doubleLink.add("Fish");
+		doubleLink.add("Cat");
+		doubleLink.add("Snake");
+		doubleLink.add("Mouse");
+		doubleLink.add("Ant");
+
+		assertEquals(0, doubleLink.search("Dog"));
+		assertEquals(1, doubleLink.search("Cat"));
+		assertEquals(2, doubleLink.search("Bird"));
+		assertEquals(3, doubleLink.search("Chimp"));
+
 	}
 
 }

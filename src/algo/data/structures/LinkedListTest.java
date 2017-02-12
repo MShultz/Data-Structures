@@ -176,10 +176,12 @@ public class LinkedListTest {
 	}
 
 	private void removeFromOne(SingleLinkedList<String> singleLink) {
+		assertEquals("Dog", singleLink.toString());
 		String removedString = singleLink.remove();
 		assertEquals("Dog", removedString);
 		assertTrue(singleLink.isEmpty());
 		assertEquals(0, singleLink.count());
+		assertEquals("", singleLink.toString());
 	}
 
 	private void removeFromMultiple(SingleLinkedList<String> singleLink) {
@@ -249,6 +251,7 @@ public class LinkedListTest {
 		assertEquals("Dog, Cat, Bird, Chimp, Hamster, Fish, Snake, Mouse, Ant", singleLink.toString());
 		
 	}
+
 	private void removeAtFromMultiple3(SingleLinkedList<String> doubleLink) {
 		doubleLink.add("Dog");
 		doubleLink.add("Cat");
@@ -400,6 +403,28 @@ public class LinkedListTest {
 		assertEquals(1, singleLink.search("Cat"));
 		assertEquals(2, singleLink.search("Bird"));
 		assertEquals(-1, singleLink.search("Chimp"));
+		singleLink.clear();
+		searchForDuplicate(singleLink);
+	}
+	
+	private void searchForDuplicate(SingleLinkedList<String> singleLink){
+		singleLink.add("Dog");
+		singleLink.add("Cat");
+		singleLink.add("Bird");
+		singleLink.add("Chimp");
+		singleLink.add("Hamster");
+		singleLink.add("Frog");
+		singleLink.add("Fish");
+		singleLink.add("Cat");
+		singleLink.add("Snake");
+		singleLink.add("Mouse");
+		singleLink.add("Ant");
+		
+		assertEquals(0, singleLink.search("Dog"));
+		assertEquals(1, singleLink.search("Cat"));
+		assertEquals(2, singleLink.search("Bird"));
+		assertEquals(3, singleLink.search("Chimp"));
+		
 	}
 
 }

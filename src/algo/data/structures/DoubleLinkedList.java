@@ -50,9 +50,13 @@ public class DoubleLinkedList<T> extends SingleLinkedList<T> {
 	public T remove() {
 		if (count > 0) {
 			Node<T> toRemove = head;
-			this.setHead(getSpecificNode(1));
-			head.setPrevious(null);
-			--count;
+			if (count > 1) {
+				this.setHead(toRemove.getNext());
+				head.setPrevious(null);
+				--count;
+			} else {
+				clear();
+			}
 			return toRemove.getValue();
 		} else
 			throw new NoSuchElementException("The list is Empty");
@@ -67,14 +71,14 @@ public class DoubleLinkedList<T> extends SingleLinkedList<T> {
 			if (index > 0 && index != count - 1) {
 				before.setNext(after);
 				after.setPrevious(before);
-			} else if (index == 0){
+			} else if (index == 0) {
 				after.setPrevious(null);
 				this.setHead(after);
-			}else{
+			} else {
 				before.setNext(null);
 				this.setTail(before);
 			}
-				--count;
+			--count;
 			return nodeToRemove.getValue();
 		} else {
 			throw new IndexOutOfBoundsException("Invalid index: " + index + " for list size: " + count);

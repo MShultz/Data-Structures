@@ -42,7 +42,7 @@ public class SingleLinkedList<T> {
 		}
 	}
 
-	 public int count() {
+	public int count() {
 		return count;
 	}
 
@@ -114,8 +114,10 @@ public class SingleLinkedList<T> {
 			boolean found = false;
 			Node<T> temp = head;
 			for (int i = 0; i < count && !found; ++i) {
-				if (temp.getValue().equals(value))
+				if (temp.getValue().equals(value)) {
 					index = i;
+					found = true;
+				}
 				temp = temp.getNext();
 			}
 		}
