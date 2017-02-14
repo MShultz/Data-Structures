@@ -1,13 +1,16 @@
 package algo.data.structures;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class SingleLinkedList<T> {
+public class SingleLinkedList<T> implements Collection<T>{
 	protected Node<T> head;
 	protected Node<T> tail;
 	protected int count = 0;
 
-	public void add(T value) {
+	@Override
+	public boolean add(T value) {
 		if (count == 0) {
 			Node<T> newNode = new Node<T>(null, value);
 			this.setHead(newNode);
@@ -142,6 +145,60 @@ public class SingleLinkedList<T> {
 
 	protected void setTail(Node<T> tail) {
 		this.tail = tail;
+	}
+
+	@Override
+	public boolean addAll(Collection<? extends T> c) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean contains(Object o) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean containsAll(Collection<?> c) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean remove(Object o) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeAll(Collection<?> c) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean retainAll(Collection<?> c) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int size() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public T[] toArray() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
