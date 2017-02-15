@@ -20,6 +20,7 @@ public class SingleLinkedList<T> implements Collection<T>{
 			tail = tail.getNext();
 		}
 		++count;
+		return true;
 	}
 
 	public void insert(T value, int index) {
@@ -148,9 +149,13 @@ public class SingleLinkedList<T> implements Collection<T>{
 	}
 
 	@Override
-	public boolean addAll(Collection<? extends T> c) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addAll(Collection<? extends T> collection) {
+		boolean hasChanged = !collection.isEmpty();
+		Iterator<? extends T> colIterator = collection.iterator();
+		while(colIterator.hasNext()){
+			this.add(colIterator.next());
+		}
+		return hasChanged;
 	}
 
 	@Override
@@ -196,7 +201,13 @@ public class SingleLinkedList<T> implements Collection<T>{
 	}
 
 	@Override
-	public T[] toArray() {
+	public Object[] toArray() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <T> T[] toArray(T[] a) {
 		// TODO Auto-generated method stub
 		return null;
 	}
