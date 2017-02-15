@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 public class DoubleLinkedList<T> extends SingleLinkedList<T> {
 
 	@Override
-	public void add(T value) {
+	public boolean add(T value) {
 		if (count == 0) {
 			Node<T> newNode = new Node<T>(null, null, value);
 			this.setHead(newNode);
@@ -16,6 +16,7 @@ public class DoubleLinkedList<T> extends SingleLinkedList<T> {
 			this.setTail(newNode);
 		}
 		++count;
+		return true;
 	}
 
 	@Override

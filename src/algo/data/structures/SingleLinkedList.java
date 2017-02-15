@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class SingleLinkedList<T> implements Collection<T>{
+public class SingleLinkedList<T> implements Collection<T> {
 	protected Node<T> head;
 	protected Node<T> tail;
 	protected int count = 0;
@@ -152,7 +152,7 @@ public class SingleLinkedList<T> implements Collection<T>{
 	public boolean addAll(Collection<? extends T> collection) {
 		boolean hasChanged = !collection.isEmpty();
 		Iterator<? extends T> colIterator = collection.iterator();
-		while(colIterator.hasNext()){
+		while (colIterator.hasNext()) {
 			this.add(colIterator.next());
 		}
 		return hasChanged;
@@ -160,8 +160,11 @@ public class SingleLinkedList<T> implements Collection<T>{
 
 	@Override
 	public boolean contains(Object o) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean contains = false;
+		if (o.getClass().getName().equals(head.getValue().getClass().getName())) {
+			contains = this.search((T) o) == -1 ? false : true;
+		}
+		return contains;
 	}
 
 	@Override
