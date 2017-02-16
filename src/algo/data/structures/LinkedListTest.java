@@ -2,6 +2,7 @@ package algo.data.structures;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import org.junit.Test;
@@ -244,12 +245,12 @@ public class LinkedListTest {
 		singleLink.add("Snake");
 		singleLink.add("Mouse");
 		singleLink.add("Ant");
-		
+
 		assertEquals("Frog", singleLink.removeAt(5));
 		assertEquals("Hamster", singleLink.get(4));
 		assertEquals("Fish", singleLink.get(5));
 		assertEquals("Dog, Cat, Bird, Chimp, Hamster, Fish, Snake, Mouse, Ant", singleLink.toString());
-		
+
 	}
 
 	private void removeAtFromMultiple3(SingleLinkedList<String> doubleLink) {
@@ -264,7 +265,7 @@ public class LinkedListTest {
 		doubleLink.add("Mouse");
 		doubleLink.add("Ant");
 		String list = doubleLink.toString();
-		
+
 		assertEquals("Ant", doubleLink.removeAt(9));
 		list = doubleLink.toString();
 		assertEquals("Hamster", doubleLink.get(4));
@@ -406,8 +407,8 @@ public class LinkedListTest {
 		singleLink.clear();
 		searchForDuplicate(singleLink);
 	}
-	
-	private void searchForDuplicate(SingleLinkedList<String> singleLink){
+
+	private void searchForDuplicate(SingleLinkedList<String> singleLink) {
 		singleLink.add("Dog");
 		singleLink.add("Cat");
 		singleLink.add("Bird");
@@ -419,12 +420,87 @@ public class LinkedListTest {
 		singleLink.add("Snake");
 		singleLink.add("Mouse");
 		singleLink.add("Ant");
-		
+
 		assertEquals(0, singleLink.search("Dog"));
 		assertEquals(1, singleLink.search("Cat"));
 		assertEquals(2, singleLink.search("Bird"));
 		assertEquals(3, singleLink.search("Chimp"));
-		
+
 	}
 
+	@Test
+	public void addAllTest() {
+		SingleLinkedList<String> singleLink = new SingleLinkedList<String>();
+		addAllToEmpty(singleLink);
+		singleLink.clear();
+		addAllToNotEmpty(singleLink);
+	}
+
+	private void addAllToEmpty(SingleLinkedList<String> singleLink) {
+		assertTrue(singleLink.isEmpty());
+		singleLink.addAll(getCollection());
+		assertFalse(singleLink.isEmpty());
+		assertEquals("1", singleLink.get(0));
+		assertEquals("2", singleLink.get(1));
+		assertEquals("3", singleLink.get(2));
+		assertEquals("4", singleLink.get(3));
+		assertEquals("5", singleLink.get(4));
+		System.out.println(singleLink.toString());
+		assertEquals(5, singleLink.count());
+
+	}
+
+	private void addAllToNotEmpty(SingleLinkedList<String> singleLink) {
+		addThreeObjects(singleLink);
+		assertEquals("Dog", singleLink.get(0));
+		assertEquals("Cat", singleLink.get(1));
+		assertEquals("Bird", singleLink.get(2));
+		singleLink.addAll(getCollection());
+		assertEquals("Dog", singleLink.get(0));
+		assertEquals("Cat", singleLink.get(1));
+		assertEquals("Bird", singleLink.get(2));
+		assertEquals("1", singleLink.get(3));
+		assertEquals("2", singleLink.get(4));
+		assertEquals("3", singleLink.get(5));
+		assertEquals("4", singleLink.get(6));
+		assertEquals("5", singleLink.get(7));
+		assertEquals(8, singleLink.count());
+	}
+
+	private ArrayList<String> getCollection() {
+		ArrayList<String> collection = new ArrayList<String>();
+		collection.add("1");
+		collection.add("2");
+		collection.add("3");
+		collection.add("4");
+		collection.add("5");
+		return collection;
+	}
+
+	@Test
+	public void containsTest(){
+		SingleLinkedList<String> singleLink = new SingleLinkedList<String>();
+		emptyTest(singleLink);
+		singleLink.addAll(getCollection());
+		differentTypeTest(singleLink);
+		doesContainTest(singleLink);
+		doesNotContainTest(singleLink);
+	}
+	
+	private void differentTypeTest(SingleLinkedList<String> singleLink){
+		assertFalse(singleLink.contains(new Integer(16)));
+		assertFalse(singleLink.contains((Boolean) false));
+	}
+	private void doesContainTest(SingleLinkedList<String> singleLink){
+		assertTrue(singleLink.contains("1"));
+		assertTrue(singleLink.contains("2"));
+	}
+	private void doesNotContainTest(SingleLinkedList<String> singleLink){
+		assertFalse(singleLink.contains("Dog"));
+		assertFalse(singleLink.contains("Cat"));
+	}
+	private void emptyTest(SingleLinkedList<String> singleLink){
+		assertFalse(singleLink.contains("Dog"));
+		assertFalse(singleLink.contains("Cat"));
+	}
 }

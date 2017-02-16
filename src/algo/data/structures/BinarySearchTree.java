@@ -18,18 +18,43 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 			else
 				parentNode.setLeft(childNode);
 		} else
-			root = new BinaryNode<T>(null, null, null, value);
+			this.setRoot(new BinaryNode<T>(null, null, null, value));
+		++count;
 		return true;
 	}
-	
-	public boolean contains(T value){
-		return contains(root, value);		
+
+	public boolean contains(T value) {
+		return contains(root, value);
 	}
-	private boolean contains(BinaryNode<T> currentNode, T value){
-		boolean contains = currentNode.getValue().equals(value);
-		if(currentNode.getLeft() != null)
-			contains = contains || contains(currentNode.getLeft(), value);
-		return   || contains(currentNode.getRight(), value);
+
+	private boolean contains(BinaryNode<T> currentNode, T value) {
+		if (currentNode == null)
+			return false;
+		int result = value.compareTo(currentNode.getValue());
+		return result < 0 ? contains(currentNode.getLeft(), value)
+				: result > 0 ? contains(currentNode.getRight(), value) : true;
+	}
+
+	public void clear() {
+		this.setRoot(null);
+		count = 0;
+	}
+
+	public int count() {
+		return count;
+	}
+
+	public int height() {
+		return height(root);
+	}
+
+	public int height(BinaryNode<T> currentNode) {
+		if (currentNode == null)
+			return -1;
+		int leftHeight = height(currentNode.getLeft());
+		int rightHeight = height(currentNode.getRight());
+
+		return leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1;
 	}
 
 	private BinaryNode<T> getParent(BinaryNode<T> currentNode, T value) {
@@ -38,4 +63,9 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 		else
 			return currentNode.getLeft() == null ? currentNode : getParent(currentNode.getLeft(), value);
 	}
+
+	public void setRoot(BinaryNode<T> root) {
+		this.root = root;
+	}
+
 }

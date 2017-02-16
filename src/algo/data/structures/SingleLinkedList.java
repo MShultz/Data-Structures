@@ -161,7 +161,7 @@ public class SingleLinkedList<T> implements Collection<T> {
 	@Override
 	public boolean contains(Object o) {
 		boolean contains = false;
-		if (o.getClass().getName().equals(head.getValue().getClass().getName())) {
+		if (head != null && o.getClass().getName().equals(head.getValue().getClass().getName())) {
 			contains = this.search((T) o) == -1 ? false : true;
 		}
 		return contains;
