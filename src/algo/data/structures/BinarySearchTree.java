@@ -1,7 +1,10 @@
 package algo.data.structures;
 
+import java.util.ArrayList;
+
 public class BinarySearchTree<T extends Comparable<? super T>> {
 	private BinaryNode<T> root;
+	private String listType;
 	private int count;
 
 	public BinarySearchTree() {
@@ -9,6 +12,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 		root = null;
 	}
 
+	// change to check the type!
 	public boolean add(T value) {
 		if (root != null) {
 			BinaryNode<T> parentNode = getParent(root, value);
@@ -17,8 +21,10 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 				parentNode.setRight(childNode);
 			else
 				parentNode.setLeft(childNode);
-		} else
+		} else {
 			this.setRoot(new BinaryNode<T>(null, null, null, value));
+			listType = root.getValue().getClass().getName();
+		}
 		++count;
 		return true;
 	}
@@ -68,4 +74,50 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 		this.root = root;
 	}
 
+	public boolean remove(T value) {
+		BinaryNode<T> temporaryNode = root;
+		BinaryNode<T> nodeRemoved = remove(root, value);
+		return temporaryNode.equals(nodeRemoved) ? false : true;
+	}
+
+	private BinaryNode<T> remove(BinaryNode<T> currentNode, T value) {
+		if (currentNode != null || value.getClass().getName().equals(listType)) {
+			if (currentNode.getValue().compareTo(value) > 0) {
+				currentNode.setLeft(remove(currentNode.getLeft(), value));
+			} else if (root.getValue().compareTo(value) < 0) {
+				currentNode.setRight(remove(currentNode.getRight(), value));
+			} else {
+				if (currentNode.getRight() != null && currentNode.getLeft() != null) {
+					BinaryNode<T> minimumNode = getSmallestNode(currentNode.getRight());
+					currentNode.setValue(minimumNode.getValue());
+					remove(currentNode.getRight(), minimumNode.getValue());
+				} else if (currentNode.getRight() != null) {
+					currentNode = currentNode.getRight();
+				} else if (currentNode.getLeft() != null) {
+					currentNode = currentNode.getLeft();
+				} else {
+					currentNode = null;
+				}
+			}
+		}
+		return currentNode;
+	}
+
+	private BinaryNode<T> getSmallestNode(BinaryNode<T> currentNode) {
+		return currentNode.getLeft() == null ? currentNode : getSmallestNode(currentNode.getLeft());
+	}
+
+	public String inorder() {
+		return inorder(root).toString().replace("[", "").replace("]", "");
+	}
+
+	private ArrayList<T> inorder(BinaryNode<T> currentNode) {
+		ArrayList<T> inOrderTree = new ArrayList<T>();
+		if (currentNode != null) {
+			inOrderTree.addAll(inorder(currentNode.getLeft()));
+			inOrderTree.add(currentNode.getValue());
+			inOrderTree.addAll(inorder(currentNode.getRight()));
+		}
+		return inOrderTree;
+	}
 }
