@@ -1,5 +1,6 @@
 package algo.data.structures;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -7,6 +8,7 @@ import java.util.NoSuchElementException;
 public class SingleLinkedList<T> implements Collection<T> {
 	protected Node<T> head;
 	protected Node<T> tail;
+	protected String listType;
 	protected int count = 0;
 
 	@Override
@@ -15,6 +17,7 @@ public class SingleLinkedList<T> implements Collection<T> {
 			Node<T> newNode = new Node<T>(null, value);
 			this.setHead(newNode);
 			this.setTail(newNode);
+			listType = head.getValue().getClass().getName();
 		} else {
 			tail.setNext(new Node<T>(null, value));
 			tail = tail.getNext();
@@ -58,7 +61,6 @@ public class SingleLinkedList<T> implements Collection<T> {
 			return toRemove.getValue();
 		} else
 			throw new NoSuchElementException("The list is Empty");
-
 	}
 
 	public T removeAt(int index) {
@@ -161,7 +163,7 @@ public class SingleLinkedList<T> implements Collection<T> {
 	@Override
 	public boolean contains(Object o) {
 		boolean contains = false;
-		if (head != null && o.getClass().getName().equals(head.getValue().getClass().getName())) {
+		if (head != null && o.getClass().getName().equals(listType)) {
 			contains = this.search((T) o) == -1 ? false : true;
 		}
 		return contains;
@@ -169,26 +171,44 @@ public class SingleLinkedList<T> implements Collection<T> {
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean containsAll = false;
+		if (head != null && c.iterator().next().getClass().getName().equals(listType)) {
+			containsAll = true;
+			for (Object object : c) {
+				if (!this.contains(object)) {
+					containsAll = false;
+				}
+			}
+		}
+		return containsAll;
 	}
 
 	@Override
 	public Iterator<T> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return (Iterator<T>) Arrays.asList(this.toArray()).iterator();
 	}
 
-	@Override
 	public boolean remove(Object o) {
-		// TODO Auto-generated method stub
+		if (head != null && o.getClass().getName().equals(listType)) {
+			int indexAt = search((T) o);
+			if (indexAt != -1) {
+				this.removeAt(indexAt);
+				return true;
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean allRemoved = false;
+		if (head != null && c.iterator().next().getClass().getName().equals(listType)) {
+			for (Object object : c) {
+				if (remove(object))
+					allRemoved = true;
+			}
+		}
+		return allRemoved;
 	}
 
 	@Override

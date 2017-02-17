@@ -445,7 +445,6 @@ public class LinkedListTest {
 		assertEquals("3", singleLink.get(2));
 		assertEquals("4", singleLink.get(3));
 		assertEquals("5", singleLink.get(4));
-		System.out.println(singleLink.toString());
 		assertEquals(5, singleLink.count());
 
 	}
@@ -478,7 +477,7 @@ public class LinkedListTest {
 	}
 
 	@Test
-	public void containsTest(){
+	public void containsTest() {
 		SingleLinkedList<String> singleLink = new SingleLinkedList<String>();
 		emptyTest(singleLink);
 		singleLink.addAll(getCollection());
@@ -486,21 +485,74 @@ public class LinkedListTest {
 		doesContainTest(singleLink);
 		doesNotContainTest(singleLink);
 	}
-	
-	private void differentTypeTest(SingleLinkedList<String> singleLink){
+
+	private void differentTypeTest(SingleLinkedList<String> singleLink) {
 		assertFalse(singleLink.contains(new Integer(16)));
 		assertFalse(singleLink.contains((Boolean) false));
 	}
-	private void doesContainTest(SingleLinkedList<String> singleLink){
+
+	private void doesContainTest(SingleLinkedList<String> singleLink) {
+		String currentList = singleLink.toString();
 		assertTrue(singleLink.contains("1"));
 		assertTrue(singleLink.contains("2"));
 	}
-	private void doesNotContainTest(SingleLinkedList<String> singleLink){
+
+	private void doesNotContainTest(SingleLinkedList<String> singleLink) {
 		assertFalse(singleLink.contains("Dog"));
 		assertFalse(singleLink.contains("Cat"));
 	}
-	private void emptyTest(SingleLinkedList<String> singleLink){
+
+	private void emptyTest(SingleLinkedList<String> singleLink) {
 		assertFalse(singleLink.contains("Dog"));
 		assertFalse(singleLink.contains("Cat"));
+	}
+
+	@Test
+	public void containsAllTest() {
+		SingleLinkedList<String> singleLink = new SingleLinkedList<String>();
+		addThreeObjects(singleLink);
+		allDifferentTypeTest(singleLink);
+		allDoesNotContainTest(singleLink);
+		singleLink.clear();
+		allEmptyTest(singleLink);
+		singleLink.addAll(getCollection());
+		containsAllTest(singleLink);
+	}
+
+	private void allDifferentTypeTest(SingleLinkedList<String> singleLink) {
+		ArrayList<Integer> collection = new ArrayList<Integer>();
+		collection.add(1);
+		collection.add(2);
+		collection.add(3);
+		collection.add(4);
+		collection.add(5);
+		assertFalse(singleLink.containsAll(collection));
+	}
+
+	private void allDoesNotContainTest(SingleLinkedList<String> singleLink) {
+		assertFalse(singleLink.containsAll(getCollection()));
+	}
+
+	private void allEmptyTest(SingleLinkedList<String> singleLink) {
+		assertFalse(singleLink.containsAll(getCollection()));
+	}
+
+	private void containsAllTest(SingleLinkedList<String> singleLink) {
+		assertTrue(singleLink.containsAll(getCollection()));
+	}
+
+	@Test
+	public void removeBooleanTest() {
+		SingleLinkedList<String> singleLink = new SingleLinkedList<String>();
+		assertFalse(singleLink.remove("Dog"));
+		singleLink.addAll(getCollection());
+		assertFalse(singleLink.remove(new Integer(1)));
+		assertTrue(singleLink.remove("3"));
+		assertEquals("1, 2, 4, 5" ,singleLink.toString());
+	}
+	
+	@Test
+	public void removeAllTest(){
+		
 	}
 }
