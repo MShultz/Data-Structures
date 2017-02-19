@@ -2,8 +2,6 @@ package algo.data.structures;
 
 import static org.junit.Assert.*;
 
-import java.util.Random;
-
 import org.junit.Test;
 
 public class BinarySearchTreeTest {
@@ -136,16 +134,65 @@ public class BinarySearchTreeTest {
 	public void inOrderTest(){
 		BinarySearchTree<Integer> bs = new BinarySearchTree<Integer>();
 		bs.add(10);
-		bs.add(8);
 		bs.add(7);
-		bs.add(9);
-		bs.add(13);
-		bs.add(14);
+		bs.add(3);
+		bs.add(8);
 		bs.add(12);
-		assertEquals("7, 8, 9, 10, 12, 13, 14", bs.inorder());
-		bs.remove(8);
-		assertEquals("8, 9, 10, 12, 13, 14", bs.inorder());
+		bs.add(11);
+		assertEquals("3, 7, 8, 10, 11, 12", bs.inorder());
 		
 	}
-
+	
+	@Test 
+	public void preOrderTest(){
+		BinarySearchTree<Integer> bs = new BinarySearchTree<Integer>();
+		bs.add(10);
+		bs.add(7);
+		bs.add(3);
+		bs.add(8);
+		bs.add(12);
+		bs.add(11);
+		assertEquals("10, 7, 3, 8, 12, 11", bs.preorder());
+	}
+	
+	@Test
+	public void postOrderTest(){
+		BinarySearchTree<Integer> bs = new BinarySearchTree<Integer>();
+		bs.add(10);
+		bs.add(7);
+		bs.add(3);
+		bs.add(8);
+		bs.add(12);
+		bs.add(11);
+		assertEquals("3, 8, 7, 11, 12, 10", bs.postorder());
+	}
+	
+	@Test
+	public void removeTest(){
+		BinarySearchTree<Integer> bs = new BinarySearchTree<Integer>();
+		bs.add(10);
+		bs.add(7);
+		bs.add(3);
+		bs.add(8);
+		bs.add(12);
+		bs.add(11);
+		assertTrue(bs.remove(8));
+		assertEquals("3, 7, 10, 11, 12", bs.inorder());
+		assertFalse(bs.remove(8));
+		assertEquals("3, 7, 10, 11, 12", bs.inorder());
+		assertTrue(bs.remove(12));
+		assertEquals("3, 7, 10, 11", bs.inorder());
+		assertTrue(bs.remove(10));
+		assertEquals("3, 7, 11", bs.inorder());
+		assertTrue(bs.remove(7));
+		assertEquals("3, 11", bs.inorder());
+		assertTrue(bs.remove(3));
+		assertEquals("11", bs.inorder());
+	}
+	
+	@Test
+	public void toArrayTest(){
+		BinarySearchTree<Integer> bs = new BinarySearchTree<Integer>();
+		assertEquals("[]", bs.toArray().toString());
+	}
 }
