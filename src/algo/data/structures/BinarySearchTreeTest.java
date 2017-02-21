@@ -194,5 +194,12 @@ public class BinarySearchTreeTest {
 	public void toArrayTest(){
 		BinarySearchTree<Integer> bs = new BinarySearchTree<Integer>();
 		assertEquals("[]", bs.toArray().toString());
+		bs.add(10);
+		bs.add(7);
+		bs.add(3);
+		bs.add(8);
+		bs.add(12);
+		bs.add(11);
+		assertEquals("[3, 7, 8, 10, 11, 12]", bs.toArray().toString());
 	}
 }
