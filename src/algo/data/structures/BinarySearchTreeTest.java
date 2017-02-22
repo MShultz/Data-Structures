@@ -193,13 +193,25 @@ public class BinarySearchTreeTest {
 	@Test
 	public void toArrayTest(){
 		BinarySearchTree<Integer> bs = new BinarySearchTree<Integer>();
-		assertEquals("[]", bs.toArray().toString());
+		assertEquals("[]", arrayConversion(bs.toArray()));
 		bs.add(10);
 		bs.add(7);
 		bs.add(3);
 		bs.add(8);
 		bs.add(12);
 		bs.add(11);
-		assertEquals("[3, 7, 8, 10, 11, 12]", bs.toArray().toString());
+		assertEquals("[3, 7, 8, 10, 11, 12]", arrayConversion(bs.toArray()));
+	}
+	
+	private String arrayConversion(Object[] currentArray){
+		String arrayString = "[";
+		if(currentArray.length > 0){
+			arrayString += currentArray[0].toString();
+			for(int i = 1; i < currentArray.length; ++i){
+				arrayString += ", " + currentArray[i];
+			}		
+		}
+		arrayString += "]";
+		return arrayString;
 	}
 }

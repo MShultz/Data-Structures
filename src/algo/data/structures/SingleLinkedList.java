@@ -1,5 +1,7 @@
 package algo.data.structures;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -160,6 +162,7 @@ public class SingleLinkedList<T> implements Collection<T> {
 		return hasChanged;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean contains(Object o) {
 		boolean contains = false;
@@ -183,13 +186,16 @@ public class SingleLinkedList<T> implements Collection<T> {
 		return containsAll;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Iterator<T> iterator() {
 		return (Iterator<T>) Arrays.asList(this.toArray()).iterator();
+		
 	}
 
 	public boolean remove(Object o) {
 		if (head != null && o.getClass().getName().equals(listType)) {
+			@SuppressWarnings("unchecked")
 			int indexAt = search((T) o);
 			if (indexAt != -1) {
 				this.removeAt(indexAt);
@@ -202,7 +208,7 @@ public class SingleLinkedList<T> implements Collection<T> {
 	@Override
 	public boolean removeAll(Collection<?> c) {
 		boolean allRemoved = false;
-		if (head != null && c.iterator().next().getClass().getName().equals(listType)) {
+		if (head != null &&  c.size() > 0 && c.iterator().next().getClass().getName().equals(listType)) {
 			for (Object object : c) {
 				if (remove(object))
 					allRemoved = true;
@@ -213,26 +219,41 @@ public class SingleLinkedList<T> implements Collection<T> {
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
+		ArrayList<T> itemsToRemove = new ArrayList<T>();
+		Iterator<T> currentLinkedList = this.iterator();
+		while(currentLinkedList.hasNext()){
+			T currentValue = currentLinkedList.next();
+			if(!c.contains(currentValue)){
+				itemsToRemove.add(currentValue);
+			}
+		}
+		this.removeAll(itemsToRemove);
+		return itemsToRemove.size() > 0;
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.count();
 	}
 
 	@Override
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.toString().equals("") ? new Object[0] : this.toString().split(",\\s");
 	}
 
+	@SuppressWarnings({ "unchecked", "hiding" })
 	@Override
 	public <T> T[] toArray(T[] a) {
-		// TODO Auto-generated method stub
-		return null;
+		if(a.length >= this.count()){
+		 System.arraycopy(this.toArray(), 0, a, 0, this.count());
+		 return a;
+		}else{
+			T[] array = (T[])Array.newInstance(a.getClass().getComponentType(), this.count());
+			System.arraycopy(this.toArray(), 0, array, 0, this.count());
+			T[] result = (T[])Array.newInstance(a.getClass().getComponentType(), this.count());
+			System.arraycopy(array, 0, result, 0, this.count());
+				return result;
+		}
 	}
 
 }

@@ -3,6 +3,7 @@ package algo.data.structures;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.junit.Test;
@@ -264,10 +265,8 @@ public class LinkedListTest {
 		doubleLink.add("Snake");
 		doubleLink.add("Mouse");
 		doubleLink.add("Ant");
-		String list = doubleLink.toString();
 
 		assertEquals("Ant", doubleLink.removeAt(9));
-		list = doubleLink.toString();
 		assertEquals("Hamster", doubleLink.get(4));
 		assertEquals("Mouse", doubleLink.get(8));
 		assertEquals("Dog, Cat, Bird, Chimp, Hamster, Frog, Fish, Snake, Mouse", doubleLink.toString());
@@ -492,7 +491,6 @@ public class LinkedListTest {
 	}
 
 	private void doesContainTest(SingleLinkedList<String> singleLink) {
-		String currentList = singleLink.toString();
 		assertTrue(singleLink.contains("1"));
 		assertTrue(singleLink.contains("2"));
 	}
@@ -548,11 +546,215 @@ public class LinkedListTest {
 		singleLink.addAll(getCollection());
 		assertFalse(singleLink.remove(new Integer(1)));
 		assertTrue(singleLink.remove("3"));
-		assertEquals("1, 2, 4, 5" ,singleLink.toString());
+		assertEquals("1, 2, 4, 5", singleLink.toString());
+	}
+
+	@Test
+	public void removeAllTest() {
+
+	}
+
+	@Test
+	public void toIteratorTest() {
+		SingleLinkedList<String> singleLink = new SingleLinkedList<String>();
+		Iterator<String> tester = singleLink.iterator();
+		assertFalse(tester.hasNext());
+		singleLink.addAll(getCollection());
+		Integer count = 1;
+		tester = singleLink.iterator();
+		while (tester.hasNext()) {
+			assertEquals(count.toString(), tester.next());
+			++count;
+		}
+	}
+
+	@Test
+	public void toArrayObjTest() {
+		SingleLinkedList<String> singleLink = new SingleLinkedList<String>();
+		singleLink.addAll(getCollection());
+		Object[] tester = singleLink.toArray();
+		for (int i = 0; i < tester.length; ++i) {
+			int equals = i + 1;
+			assertEquals(equals + "", tester[i]);
+		}
+
+		singleLink.clear();
+		tester = singleLink.toArray();
+		assertEquals(0, tester.length);
+	}
+
+	@Test
+	public void toArrayTypeTest() {
+		SingleLinkedList<String> singleLink = new SingleLinkedList<String>();
+		singleLink.addAll(getCollection());
+		tooSmallArrayTest(singleLink);
+		largeEnoughArrayTest(singleLink);
+		hasItemsArrayTest(singleLink);
+
+	}
+
+	private void tooSmallArrayTest(SingleLinkedList<String> singleLink) {
+		String[] result = new String[2];
+		result = singleLink.toArray(result);
+		for (int i = 0; i < result.length; ++i) {
+			int equals = i + 1;
+			assertEquals(equals + "", result[i]);
+		}
+	}
+
+	private void largeEnoughArrayTest(SingleLinkedList<String> singleLink) {
+		String[] result = new String[10];
+		result = singleLink.toArray(result);
+		assertEquals("1", result[0]);
+		assertEquals("2", result[1]);
+		assertEquals("3", result[2]);
+		assertEquals("4", result[3]);
+		assertEquals("5", result[4]);
+		assertEquals(null, result[5]);
+		assertEquals(null, result[6]);
+		assertEquals(null, result[7]);
+		assertEquals(null, result[8]);
+		assertEquals(null, result[9]);
+	}
+
+	private void hasItemsArrayTest(SingleLinkedList<String> singleLink) {
+		justEnough(singleLink);
+		notEnough(singleLink);
+		moreThanEnough(singleLink);
+	
 	}
 	
-	@Test
-	public void removeAllTest(){
-		
+	private void justEnough(SingleLinkedList<String> singleLink){
+		String[] result = {"A", "B", "C", "D", "E"};
+		result = singleLink.toArray(result);
+		assertEquals("1", result[0]);
+		assertEquals("2", result[1]);
+		assertEquals("3", result[2]);
+		assertEquals("4", result[3]);
+		assertEquals("5", result[4]);
+	
+		try{
+			String shouldNotExist = result[5];
+			System.out.println(shouldNotExist);
+			fail("There should not be a 5th array index.");
+		}catch (ArrayIndexOutOfBoundsException e){
+			assertEquals(5, singleLink.count());
+		}
 	}
+	
+	private void notEnough(SingleLinkedList<String> singleLink){
+		String[] result = {"A", "B", "C", "D"};
+		result = singleLink.toArray(result);
+		assertEquals("1", result[0]);
+		assertEquals("2", result[1]);
+		assertEquals("3", result[2]);
+		assertEquals("4", result[3]);
+		assertEquals("5", result[4]);
+	
+		try{
+			String shouldNotExist = result[5];
+			System.out.println(shouldNotExist);
+			fail("There should not be a 5th array index.");
+		}catch (ArrayIndexOutOfBoundsException e){
+			assertEquals(5, singleLink.count());
+		}
+	}
+	
+	private void moreThanEnough(SingleLinkedList<String> singleLink){
+		String[] result = {"A", "B", "C", "D", "E", "F", "G"};
+		result = singleLink.toArray(result);
+		assertEquals("1", result[0]);
+		assertEquals("2", result[1]);
+		assertEquals("3", result[2]);
+		assertEquals("4", result[3]);
+		assertEquals("5", result[4]);
+		assertEquals("F", result[5]);
+		assertEquals("G", result[6]);
+		try{
+			String shouldNotExist = result[7];
+			System.out.println(shouldNotExist);
+			fail("There should not be a 5th array index.");
+		}catch (ArrayIndexOutOfBoundsException e){
+			assertEquals(5, singleLink.count());
+		}
+	}
+
+	@Test
+	public void retainAllTest() {
+		SingleLinkedList<String> singleLink = new SingleLinkedList<String>();
+		retainOne(singleLink);
+		retainMultiple(singleLink);
+		retainNone(singleLink);
+		retainAll(singleLink);
+	}
+	
+	private void retainOne(SingleLinkedList<String> singleLink){
+		singleLink.addAll(getCollection());
+		ArrayList<String> testingList = new ArrayList<String>();
+		testingList.add("1");
+		
+		assertTrue(singleLink.retainAll(testingList));
+		assertEquals("1", singleLink.get(0));
+		try{
+			singleLink.get(1);
+			fail("There should not be a 5th array index.");
+		}catch (IndexOutOfBoundsException e){
+			assertEquals(1, singleLink.count());
+		}
+	}
+	
+	private void retainMultiple(SingleLinkedList<String> singleLink){
+		singleLink.clear();
+		singleLink.addAll(getCollection());
+		ArrayList<String> testingList = new ArrayList<String>();
+		testingList.add("1");
+		testingList.add("5");
+		assertTrue(singleLink.retainAll(testingList));
+		assertEquals("1", singleLink.get(0));
+		assertEquals("5", singleLink.get(1));
+		try{
+			singleLink.get(2);
+			fail("There should not be a 2nd array index.");
+		}catch (IndexOutOfBoundsException e){
+			assertEquals(2, singleLink.count());
+		}
+	}
+	private void retainNone(SingleLinkedList<String> singleLink){
+		singleLink.clear();
+		singleLink.addAll(getCollection());
+		ArrayList<String> testingList = new ArrayList<String>();
+		testingList.add("Cat");
+		testingList.add("D");
+		assertTrue(singleLink.retainAll(testingList));
+		try{
+			singleLink.get(0);
+			fail("There should not be a 2nd array index.");
+		}catch (IndexOutOfBoundsException e){
+			assertEquals(0, singleLink.count());
+		}
+	}
+	
+	private void retainAll(SingleLinkedList<String> singleLink){
+		singleLink.clear();
+		singleLink.addAll(getCollection());
+		ArrayList<String> testingList = new ArrayList<String>();
+		testingList.add("1");
+		testingList.add("2");
+		testingList.add("3");
+		testingList.add("4");
+		testingList.add("5");
+		assertFalse(singleLink.retainAll(testingList));
+		assertEquals("1", singleLink.get(0));
+		assertEquals("2", singleLink.get(1));
+		assertEquals("3", singleLink.get(2));
+		assertEquals("4", singleLink.get(3));
+		assertEquals("5", singleLink.get(4));
+		try{
+			singleLink.get(5);
+			fail("There should not be a 5th array index.");
+		}catch (IndexOutOfBoundsException e){
+			assertEquals(5, singleLink.count());
+		}
+	}
+	
 }

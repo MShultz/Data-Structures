@@ -13,7 +13,6 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 		root = null;
 	}
 
-	// change to check the type!
 	public boolean add(T value) {
 		if (root != null) {
 			BinaryNode<T> parentNode = getParent(root, value);
@@ -151,8 +150,11 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 		this.removeHasChanged = removeHasChanged;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public T[] toArray(){
-			return (T[]) inorder(root).toArray();
+		T[] result = (T[])Array.newInstance(Comparable.class, this.count());
+		System.arraycopy(inorder(root).toArray(), 0, result, 0, this.count());
+			return result;
 		
 	}
 }

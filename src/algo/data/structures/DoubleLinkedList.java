@@ -1,8 +1,9 @@
 package algo.data.structures;
 
+import java.util.Collection;
 import java.util.NoSuchElementException;
 
-public class DoubleLinkedList<T> extends SingleLinkedList<T> {
+public class DoubleLinkedList<T> extends SingleLinkedList<T> implements Collection<T> {
 
 	@Override
 	public boolean add(T value) {
