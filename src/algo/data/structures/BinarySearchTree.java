@@ -55,7 +55,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
 	public int height(BinaryNode<T> currentNode) {
 		if (currentNode == null)
-			return -1;
+			return 0;
 		int leftHeight = height(currentNode.getLeft());
 		int rightHeight = height(currentNode.getRight());
 
@@ -76,6 +76,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 	public boolean remove(T value) {
 		this.setRemoveHasChanged(false);
 		root = remove(root, value);
+		--count;
 		return this.removeHasChanged;
 	}
 
