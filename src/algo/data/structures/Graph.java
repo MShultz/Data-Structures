@@ -1,7 +1,5 @@
 package algo.data.structures;
 
-import java.util.ArrayList;
-
 
 public class Graph<T> {
 	private GraphNode<T> head, tail;
@@ -29,33 +27,6 @@ public class Graph<T> {
 	private void setTail(GraphNode<T> tail) {
 		this.tail = tail;
 	}
-
-//	private void getShortestPath(GraphNode<T> currentNode){
-//		Map<GraphNode<T>, GraphNode<T>> nodeTrail = new HashMap<GraphNode<T>, GraphNode<T>>();
-//		GraphNode<T> source = currentNode;
-//		SingleLinkedList<GraphNode<T>> nodesToCheck = new SingleLinkedList<GraphNode<T>>();
-//		nodesToCheck.add(source);
-//		Set<GraphNode<T>> visitedNodes = new HashSet<GraphNode<T>>();
-//		visitedNodes.add(currentNode);
-//		
-//		while(!nodesToCheck.isEmpty()){
-//			source = nodesToCheck.remove();
-//	//		if(!source.equals(tail)){
-//				for(GraphNode<T> neighborNode : source.getNodeNeighbors()){
-//					if(!visitedNodes.contains(neighborNode)){
-//						nodesToCheck.add(neighborNode);
-//						visitedNodes.add(neighborNode);
-//						nodeTrail.put(source, neighborNode);
-//					}
-//				}
-//			}
-//		//}
-//		
-//		if(source.equals(tail)){
-//		for(GraphNode<T> node = currentNode; node != null; node = nodeTrail.get(node))
-//			shortestDistance.add(node);
-//		}
-//	}
 	
 	private void findPath(){
 		SingleLinkedList<GraphNode<T>> nodesToCheck = new SingleLinkedList<GraphNode<T>>();

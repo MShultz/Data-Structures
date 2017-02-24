@@ -11,6 +11,7 @@ public class DoubleLinkedList<T> extends SingleLinkedList<T> implements Collecti
 			Node<T> newNode = new Node<T>(null, null, value);
 			this.setHead(newNode);
 			this.setTail(newNode);
+			listType = head.getValue().getClass().getName();
 		} else {
 			Node<T> newNode = new Node<T>(null, tail, value);
 			tail.setNext(newNode);
@@ -68,20 +69,26 @@ public class DoubleLinkedList<T> extends SingleLinkedList<T> implements Collecti
 	public T removeAt(int index) {
 		if (index >= 0 && index < count && count > 0) {
 			Node<T> nodeToRemove = getSpecificNode(index);
+			T value = nodeToRemove.getValue();
 			Node<T> after = nodeToRemove.getNext();
 			Node<T> before = nodeToRemove.getPrevious();
-			if (index > 0 && index != count - 1) {
+			if (this.count() == 1) {
+				this.clear();
+			} else if (index != 0 && index != this.count() - 1) {
+				nodeToRemove = null;
 				before.setNext(after);
 				after.setPrevious(before);
 			} else if (index == 0) {
-				after.setPrevious(null);
-				this.setHead(after);
+				head = nodeToRemove.getNext();
+				nodeToRemove = null;
+				head.setPrevious(null);
 			} else {
-				before.setNext(null);
-				this.setTail(before);
+				tail = nodeToRemove.getPrevious();
+				nodeToRemove = null;
+				tail.setNext(null);
 			}
-			--count;
-			return nodeToRemove.getValue();
+			count = count == 0 ? 0 : count - 1;
+			return value;
 		} else {
 			throw new IndexOutOfBoundsException("Invalid index: " + index + " for list size: " + count);
 		}

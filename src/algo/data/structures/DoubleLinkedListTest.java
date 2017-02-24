@@ -2,6 +2,8 @@ package algo.data.structures;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.junit.Test;
@@ -285,10 +287,8 @@ public class DoubleLinkedListTest {
 		doubleLink.add("Snake");
 		doubleLink.add("Mouse");
 		doubleLink.add("Ant");
-		String list = doubleLink.toString();
 
 		assertEquals("Frog", doubleLink.removeAt(5));
-		list = doubleLink.toString();
 		assertEquals("Hamster", doubleLink.get(4));
 		assertEquals("Fish", doubleLink.get(5));
 		assertEquals("Dog, Cat, Bird, Chimp, Hamster, Fish, Snake, Mouse, Ant", doubleLink.toString());
@@ -305,10 +305,8 @@ public class DoubleLinkedListTest {
 		doubleLink.add("Snake");
 		doubleLink.add("Mouse");
 		doubleLink.add("Ant");
-		String list = doubleLink.toString();
 
 		assertEquals("Ant", doubleLink.removeAt(9));
-		list = doubleLink.toString();
 		assertEquals("Hamster", doubleLink.get(4));
 		assertEquals("Mouse", doubleLink.get(8));
 		assertEquals("Dog, Cat, Bird, Chimp, Hamster, Frog, Fish, Snake, Mouse", doubleLink.toString());
@@ -468,5 +466,335 @@ public class DoubleLinkedListTest {
 		assertEquals(3, doubleLink.search("Chimp"));
 
 	}
+	@Test
+	public void addAllTest() {
+		DoubleLinkedList<String> doubleLink = new DoubleLinkedList<String>();
+		addAllToEmpty(doubleLink);
+		doubleLink.clear();
+		addAllToNotEmpty(doubleLink);
+	}
+
+	private void addAllToEmpty(DoubleLinkedList<String> doubleLink) {
+		assertTrue(doubleLink.isEmpty());
+		doubleLink.addAll(getCollection());
+		assertFalse(doubleLink.isEmpty());
+		assertEquals("1", doubleLink.get(0));
+		assertEquals("2", doubleLink.get(1));
+		assertEquals("3", doubleLink.get(2));
+		assertEquals("4", doubleLink.get(3));
+		assertEquals("5", doubleLink.get(4));
+		assertEquals(5, doubleLink.count());
+
+	}
+
+	private void addAllToNotEmpty(DoubleLinkedList<String> doubleLink) {
+		addThreeObjects(doubleLink);
+		assertEquals("Dog", doubleLink.get(0));
+		assertEquals("Cat", doubleLink.get(1));
+		assertEquals("Bird", doubleLink.get(2));
+		doubleLink.addAll(getCollection());
+		assertEquals("Dog", doubleLink.get(0));
+		assertEquals("Cat", doubleLink.get(1));
+		assertEquals("Bird", doubleLink.get(2));
+		assertEquals("1", doubleLink.get(3));
+		assertEquals("2", doubleLink.get(4));
+		assertEquals("3", doubleLink.get(5));
+		assertEquals("4", doubleLink.get(6));
+		assertEquals("5", doubleLink.get(7));
+		assertEquals(8, doubleLink.count());
+	}
+
+	private ArrayList<String> getCollection() {
+		ArrayList<String> collection = new ArrayList<String>();
+		collection.add("1");
+		collection.add("2");
+		collection.add("3");
+		collection.add("4");
+		collection.add("5");
+		return collection;
+	}
+
+	@Test
+	public void containsTest() {
+		DoubleLinkedList<String> doubleLink = new DoubleLinkedList<String>();
+		emptyTest(doubleLink);
+		doubleLink.addAll(getCollection());
+		differentTypeTest(doubleLink);
+		doesContainTest(doubleLink);
+		doesNotContainTest(doubleLink);
+	}
+
+	private void differentTypeTest(DoubleLinkedList<String> doubleLink) {
+		assertFalse(doubleLink.contains(new Integer(16)));
+		assertFalse(doubleLink.contains((Boolean) false));
+	}
+
+	private void doesContainTest(DoubleLinkedList<String> doubleLink) {
+		assertTrue(doubleLink.contains("1"));
+		assertTrue(doubleLink.contains("2"));
+	}
+
+	private void doesNotContainTest(DoubleLinkedList<String> doubleLink) {
+		assertFalse(doubleLink.contains("Dog"));
+		assertFalse(doubleLink.contains("Cat"));
+	}
+
+	private void emptyTest(DoubleLinkedList<String> doubleLink) {
+		assertFalse(doubleLink.contains("Dog"));
+		assertFalse(doubleLink.contains("Cat"));
+	}
+
+	@Test
+	public void containsAllTest() {
+		DoubleLinkedList<String> doubleLink = new DoubleLinkedList<String>();
+		addThreeObjects(doubleLink);
+		allDifferentTypeTest(doubleLink);
+		allDoesNotContainTest(doubleLink);
+		doubleLink.clear();
+		allEmptyTest(doubleLink);
+		doubleLink.addAll(getCollection());
+		containsAllTest(doubleLink);
+	}
+
+	private void allDifferentTypeTest(DoubleLinkedList<String> doubleLink) {
+		ArrayList<Integer> collection = new ArrayList<Integer>();
+		collection.add(1);
+		collection.add(2);
+		collection.add(3);
+		collection.add(4);
+		collection.add(5);
+		assertFalse(doubleLink.containsAll(collection));
+	}
+
+	private void allDoesNotContainTest(DoubleLinkedList<String> doubleLink) {
+		assertFalse(doubleLink.containsAll(getCollection()));
+	}
+
+	private void allEmptyTest(DoubleLinkedList<String> doubleLink) {
+		assertFalse(doubleLink.containsAll(getCollection()));
+	}
+
+	private void containsAllTest(DoubleLinkedList<String> doubleLink) {
+		assertTrue(doubleLink.containsAll(getCollection()));
+	}
+
+	@Test
+	public void removeBooleanTest() {
+		DoubleLinkedList<String> doubleLink = new DoubleLinkedList<String>();
+		assertFalse(doubleLink.remove("Dog"));
+		doubleLink.addAll(getCollection());
+		assertFalse(doubleLink.remove(new Integer(1)));
+		assertTrue(doubleLink.remove("3"));
+		assertEquals("1, 2, 4, 5", doubleLink.toString());
+	}
+
+	@Test
+	public void removeAllTest() {
+
+	}
+
+	@Test
+	public void toIteratorTest() {
+		DoubleLinkedList<String> doubleLink = new DoubleLinkedList<String>();
+		Iterator<String> tester = doubleLink.iterator();
+		assertFalse(tester.hasNext());
+		doubleLink.addAll(getCollection());
+		Integer count = 1;
+		tester = doubleLink.iterator();
+		while (tester.hasNext()) {
+			assertEquals(count.toString(), tester.next());
+			++count;
+		}
+	}
+
+	@Test
+	public void toArrayObjTest() {
+		DoubleLinkedList<String> doubleLink = new DoubleLinkedList<String>();
+		doubleLink.addAll(getCollection());
+		Object[] tester = doubleLink.toArray();
+		for (int i = 0; i < tester.length; ++i) {
+			int equals = i + 1;
+			assertEquals(equals + "", tester[i]);
+		}
+
+		doubleLink.clear();
+		tester = doubleLink.toArray();
+		assertEquals(0, tester.length);
+	}
+
+	@Test
+	public void toArrayTypeTest() {
+		DoubleLinkedList<String> doubleLink = new DoubleLinkedList<String>();
+		doubleLink.addAll(getCollection());
+		tooSmallArrayTest(doubleLink);
+		largeEnoughArrayTest(doubleLink);
+		hasItemsArrayTest(doubleLink);
+
+	}
+
+	private void tooSmallArrayTest(DoubleLinkedList<String> doubleLink) {
+		String[] result = new String[2];
+		result = doubleLink.toArray(result);
+		for (int i = 0; i < result.length; ++i) {
+			int equals = i + 1;
+			assertEquals(equals + "", result[i]);
+		}
+	}
+
+	private void largeEnoughArrayTest(DoubleLinkedList<String> doubleLink) {
+		String[] result = new String[10];
+		result = doubleLink.toArray(result);
+		assertEquals("1", result[0]);
+		assertEquals("2", result[1]);
+		assertEquals("3", result[2]);
+		assertEquals("4", result[3]);
+		assertEquals("5", result[4]);
+		assertEquals(null, result[5]);
+		assertEquals(null, result[6]);
+		assertEquals(null, result[7]);
+		assertEquals(null, result[8]);
+		assertEquals(null, result[9]);
+	}
+
+	private void hasItemsArrayTest(DoubleLinkedList<String> doubleLink) {
+		justEnough(doubleLink);
+		notEnough(doubleLink);
+		moreThanEnough(doubleLink);
+	
+	}
+	
+	private void justEnough(DoubleLinkedList<String> doubleLink){
+		String[] result = {"A", "B", "C", "D", "E"};
+		result = doubleLink.toArray(result);
+		assertEquals("1", result[0]);
+		assertEquals("2", result[1]);
+		assertEquals("3", result[2]);
+		assertEquals("4", result[3]);
+		assertEquals("5", result[4]);
+	
+		try{
+			String shouldNotExist = result[5];
+			System.out.println(shouldNotExist);
+			fail("There should not be a 5th array index.");
+		}catch (ArrayIndexOutOfBoundsException e){
+			assertEquals(5, doubleLink.count());
+		}
+	}
+	
+	private void notEnough(DoubleLinkedList<String> doubleLink){
+		String[] result = {"A", "B", "C", "D"};
+		result = doubleLink.toArray(result);
+		assertEquals("1", result[0]);
+		assertEquals("2", result[1]);
+		assertEquals("3", result[2]);
+		assertEquals("4", result[3]);
+		assertEquals("5", result[4]);
+	
+		try{
+			String shouldNotExist = result[5];
+			System.out.println(shouldNotExist);
+			fail("There should not be a 5th array index.");
+		}catch (ArrayIndexOutOfBoundsException e){
+			assertEquals(5, doubleLink.count());
+		}
+	}
+	
+	private void moreThanEnough(DoubleLinkedList<String> doubleLink){
+		String[] result = {"A", "B", "C", "D", "E", "F", "G"};
+		result = doubleLink.toArray(result);
+		assertEquals("1", result[0]);
+		assertEquals("2", result[1]);
+		assertEquals("3", result[2]);
+		assertEquals("4", result[3]);
+		assertEquals("5", result[4]);
+		assertEquals("F", result[5]);
+		assertEquals("G", result[6]);
+		try{
+			String shouldNotExist = result[7];
+			System.out.println(shouldNotExist);
+			fail("There should not be a 5th array index.");
+		}catch (ArrayIndexOutOfBoundsException e){
+			assertEquals(5, doubleLink.count());
+		}
+	}
+
+	@Test
+	public void retainAllTest() {
+		DoubleLinkedList<String> doubleLink = new DoubleLinkedList<String>();
+		retainOne(doubleLink);
+		retainMultiple(doubleLink);
+		retainNone(doubleLink);
+		retainAll(doubleLink);
+	}
+	
+	private void retainOne(DoubleLinkedList<String> doubleLink){
+		doubleLink.addAll(getCollection());
+		ArrayList<String> testingList = new ArrayList<String>();
+		testingList.add("1");
+		
+		assertTrue(doubleLink.retainAll(testingList));
+		assertEquals("1", doubleLink.get(0));
+		try{
+			doubleLink.get(1);
+			fail("There should not be a 5th array index.");
+		}catch (IndexOutOfBoundsException e){
+			assertEquals(1, doubleLink.count());
+		}
+	}
+	
+	private void retainMultiple(DoubleLinkedList<String> doubleLink){
+		doubleLink.clear();
+		doubleLink.addAll(getCollection());
+		ArrayList<String> testingList = new ArrayList<String>();
+		testingList.add("1");
+		testingList.add("5");
+		assertTrue(doubleLink.retainAll(testingList));
+		assertEquals("1", doubleLink.get(0));
+		assertEquals("5", doubleLink.get(1));
+		try{
+			doubleLink.get(2);
+			fail("There should not be a 2nd array index.");
+		}catch (IndexOutOfBoundsException e){
+			assertEquals(2, doubleLink.count());
+		}
+	}
+	private void retainNone(DoubleLinkedList<String> doubleLink){
+		doubleLink.clear();
+		doubleLink.addAll(getCollection());
+		ArrayList<String> testingList = new ArrayList<String>();
+		testingList.add("Cat");
+		testingList.add("D");
+		assertTrue(doubleLink.retainAll(testingList));
+		try{
+			doubleLink.get(0);
+			fail("There should not be a 2nd array index.");
+		}catch (IndexOutOfBoundsException e){
+			assertEquals(0, doubleLink.count());
+		}
+	}
+	
+	private void retainAll(DoubleLinkedList<String> doubleLink){
+		doubleLink.clear();
+		doubleLink.addAll(getCollection());
+		ArrayList<String> testingList = new ArrayList<String>();
+		testingList.add("1");
+		testingList.add("2");
+		testingList.add("3");
+		testingList.add("4");
+		testingList.add("5");
+		assertFalse(doubleLink.retainAll(testingList));
+		assertEquals("1", doubleLink.get(0));
+		assertEquals("2", doubleLink.get(1));
+		assertEquals("3", doubleLink.get(2));
+		assertEquals("4", doubleLink.get(3));
+		assertEquals("5", doubleLink.get(4));
+		try{
+			doubleLink.get(5);
+			fail("There should not be a 5th array index.");
+		}catch (IndexOutOfBoundsException e){
+			assertEquals(5, doubleLink.count());
+		}
+	}
+	
 
 }
