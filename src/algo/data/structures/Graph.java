@@ -11,6 +11,11 @@ public class Graph<T> {
 		this.findPath();
 		this.createPath();
 	}
+	
+	public Graph(){
+		
+	}
+
 
 	public GraphNode<T> getHead() {
 		return head;
@@ -57,6 +62,18 @@ public class Graph<T> {
 
 	public SingleLinkedList<GraphNode<T>> getShortestDistance() {
 		return shortestDistance;
+	}
+	
+	public boolean pathExists(GraphNode<T> head, GraphNode<T> tail){
+		this.setHead(head);
+		this.setTail(tail);
+		findPath();
+		createPath();
+		return shortestDistance.size() > 1;
+	}
+	
+	public boolean pathExists(){
+		return shortestDistance.size() > 1;
 	}
 
 }
