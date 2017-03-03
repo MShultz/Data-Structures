@@ -1,8 +1,11 @@
-package algo.data.structures;
+package algo.data.structures.tests;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
+
+import algo.data.structures.Graph;
+import algo.data.structures.GraphNode;
 
 public class GraphTest {
 

@@ -1,4 +1,4 @@
-package algo.data.structures;
+package algo.data.structures.tests;
 
 import static org.junit.Assert.*;
 
@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.junit.Test;
+
+import algo.data.structures.DoubleLinkedList;
 
 public class DoubleLinkedListTest {
 

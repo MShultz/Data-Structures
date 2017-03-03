@@ -1,8 +1,10 @@
-package algo.data.structures;
+package algo.data.structures.tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import algo.data.structures.BinarySearchTree;
 
 public class BinarySearchTreeTest {
 
