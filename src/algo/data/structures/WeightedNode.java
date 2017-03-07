@@ -16,6 +16,10 @@ public class WeightedNode<T>{
 		this.setValue(value);
 		this.addChildren(currentChildren);
 	}
+	public WeightedNode(T value, List<Connection<T>> allConnections){
+		this.setValue(value);
+		neighborNodes.addAll(allConnections);
+	}
 
 	public void addChild(WeightedNode<T> currentNode, Integer weight) {
 		neighborNodes.add(new Connection<T>(this, currentNode, weight));
@@ -37,6 +41,19 @@ public class WeightedNode<T>{
 
 	public List<Connection<T>> getNeighborNodes() {
 		return neighborNodes;
+	}
+	public void clearNeighbors(){
+		this.neighborNodes = null;
+	}
+	
+	public int getWeight(WeightedNode<T> destination){
+		int weight = 0;
+		for(Connection<T> neighbor: this.getNeighborNodes()){
+			if(neighbor.getDestination().equals(destination)){
+				weight = neighbor.getWeight();
+			}
+		}
+		return weight;
 	}
 
 	@Override
