@@ -52,6 +52,7 @@ public class Graph<T> {
 	}
 	
 	private void createPath(){
+		shortestDistance.clear();
 		shortestDistance.add(tail);
 		GraphNode<T> nextNode = tail.getPath();
 		while(nextNode != null){
@@ -75,5 +76,4 @@ public class Graph<T> {
 	public boolean pathExists(){
 		return shortestDistance.size() > 1;
 	}
-
 }
