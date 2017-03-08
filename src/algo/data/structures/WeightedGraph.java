@@ -82,16 +82,18 @@ public class WeightedGraph<T> {
 
 	private void setLargestDistance() {
 		ArrayList<GraphNode<T>> graphNodes = populateGraph();
-//check with sorted array
 		for (int i = 0; i < graphNodes.size(); ++i) {
 			int biggestDistance = Integer.MIN_VALUE;
-			for (int j = i + 1; j < graphNodes.size(); ++j) {
-				Graph<T> graph = new Graph<T>(graphNodes.get(i), graphNodes.get(j));
-				int currentPathLargest = getDistance(graph.getShortestDistance());
-				System.out.println("Distance for node" + graphNodes.get(i).getValue() + " to + " + graphNodes.get(j).getValue() + ": " + currentPathLargest);
-				if (currentPathLargest > biggestDistance){
-					biggestDistance = currentPathLargest;
-			}}
+			for (int j = 0; j < graphNodes.size(); ++j) {
+				if (i != j) {
+					Graph<T> graph = new Graph<T>(graphNodes.get(i), graphNodes.get(j));
+					int currentPathLargest = getDistance(graph.getShortestDistance());
+					if (currentPathLargest > biggestDistance) {
+						biggestDistance = currentPathLargest;
+					}
+
+				}
+			}
 			largest.put(getCurrentNode(graphNodes.get(i)), biggestDistance);
 		}
 	}
@@ -100,11 +102,7 @@ public class WeightedGraph<T> {
 		WeightedNode<T> currentBest = null;
 		double bestAverage = Integer.MAX_VALUE;
 		for (WeightedNode<T> node : allNodes) {
-			System.out.println("Node: " + node.getValue());
-			System.out.println("Smallest: " + smallest.get(node));
-			System.out.println("Largest: " + largest.get(node));
-			
-			double avg = (((double)smallest.get(node) + largest.get(node)) / 2);
+			double avg = (((double) smallest.get(node) + largest.get(node)) / 2);
 			if (avg < bestAverage) {
 				bestAverage = avg;
 				currentBest = node;

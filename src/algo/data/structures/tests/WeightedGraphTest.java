@@ -15,11 +15,14 @@ public class WeightedGraphTest {
 	public void test() {
 		WeightedGraph<String> firstGraph = initializeFirstGraph();
 		assertEquals(24, firstGraph.getTotalLength());
-		WeightedGraph<String> MST1 = initializeFirstMST(firstGraph);
+		WeightedGraph<String> MST1 = initializeMST(firstGraph);
 		MST1.findHub();
 		assertEquals("4", MST1.getBestHub().getValue());
 		WeightedGraph<String> secondGraph = initializeSecondGraph();
 		assertEquals(23, secondGraph.getTotalLength());
+		WeightedGraph<String> MST2 = initializeMST(secondGraph);
+		MST2.findHub();
+		assertEquals("99", MST2.getBestHub().getValue());
 	}
 	
 	private WeightedGraph<String> initializeFirstGraph(){
@@ -52,7 +55,7 @@ public class WeightedGraphTest {
 		
 		return new WeightedGraph<String>(allNodes);
 	}
-	private WeightedGraph<String> initializeFirstMST(WeightedGraph<String> originalGraph){
+	private WeightedGraph<String> initializeMST(WeightedGraph<String> originalGraph){
 		ArrayList<WeightedNode<String>> allNodes = originalGraph.getAllNodesInForest();
 		originalGraph.setConnections(allNodes, originalGraph.getForest());
 		return new WeightedGraph<String>(allNodes);
@@ -84,5 +87,7 @@ public class WeightedGraphTest {
 		return new WeightedGraph<String>(allNodes);
 		
 	}
+	
+	
 
 }

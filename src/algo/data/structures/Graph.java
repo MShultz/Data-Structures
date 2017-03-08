@@ -1,6 +1,5 @@
 package algo.data.structures;
 
-
 public class Graph<T> {
 	private GraphNode<T> head, tail;
 	private SingleLinkedList<GraphNode<T>> shortestDistance = new SingleLinkedList<GraphNode<T>>();
@@ -8,14 +7,14 @@ public class Graph<T> {
 	public Graph(GraphNode<T> head, GraphNode<T> tail) {
 		this.setHead(head);
 		this.setTail(tail);
+		resetDistance();
 		this.findPath();
 		this.createPath();
 	}
-	
-	public Graph(){
-		
-	}
 
+	public Graph() {
+
+	}
 
 	public GraphNode<T> getHead() {
 		return head;
@@ -32,17 +31,17 @@ public class Graph<T> {
 	private void setTail(GraphNode<T> tail) {
 		this.tail = tail;
 	}
-	
-	private void findPath(){
+
+	private void findPath() {
 		SingleLinkedList<GraphNode<T>> nodesToCheck = new SingleLinkedList<GraphNode<T>>();
 		head.setDistance(0);
 		nodesToCheck.add(head);
-		
-		while(!nodesToCheck.isEmpty()){
+
+		while (!nodesToCheck.isEmpty()) {
 			GraphNode<T> current = nodesToCheck.remove();
-			
-			for(GraphNode<T> node: current.getNodeNeighbors()){
-				if(node.getDistance() == Integer.MAX_VALUE){
+
+			for (GraphNode<T> node : current.getNodeNeighbors()) {
+				if (node.getDistance() == Integer.MAX_VALUE) {
 					node.setDistance(current.getDistance() + 1);
 					node.setPath(current);
 					nodesToCheck.add(node);
@@ -50,12 +49,12 @@ public class Graph<T> {
 			}
 		}
 	}
-	
-	private void createPath(){
+
+	private void createPath() {
 		shortestDistance.clear();
 		shortestDistance.add(tail);
 		GraphNode<T> nextNode = tail.getPath();
-		while(nextNode != null){
+		while (nextNode != null) {
 			shortestDistance.insert(nextNode, 0);
 			nextNode = nextNode.getPath();
 		}
@@ -64,16 +63,33 @@ public class Graph<T> {
 	public SingleLinkedList<GraphNode<T>> getShortestDistance() {
 		return shortestDistance;
 	}
-	
-	public boolean pathExists(GraphNode<T> head, GraphNode<T> tail){
+
+	public boolean pathExists(GraphNode<T> head, GraphNode<T> tail) {
 		this.setHead(head);
 		this.setTail(tail);
 		findPath();
 		createPath();
 		return shortestDistance.size() > 1;
 	}
-	
-	public boolean pathExists(){
+
+	public boolean pathExists() {
 		return shortestDistance.size() > 1;
+	}
+
+	private void resetDistance() {
+		SingleLinkedList<GraphNode<T>> nodesToCheck = new SingleLinkedList<GraphNode<T>>();
+		nodesToCheck.add(head);
+		head.setDistance(Integer.MAX_VALUE);
+		head.setPath(null);
+		while (!nodesToCheck.isEmpty()) {
+			GraphNode<T> current = nodesToCheck.remove();
+			for (GraphNode<T> node : current.getNodeNeighbors()) {
+				if (node.getDistance() != Integer.MAX_VALUE) {
+					node.setDistance(Integer.MAX_VALUE);
+					node.setPath(null);
+					nodesToCheck.add(node);
+				}
+			}
+		}
 	}
 }
