@@ -82,24 +82,29 @@ public class WeightedGraph<T> {
 
 	private void setLargestDistance() {
 		ArrayList<GraphNode<T>> graphNodes = populateGraph();
-
+//check with sorted array
 		for (int i = 0; i < graphNodes.size(); ++i) {
 			int biggestDistance = Integer.MIN_VALUE;
 			for (int j = i + 1; j < graphNodes.size(); ++j) {
 				Graph<T> graph = new Graph<T>(graphNodes.get(i), graphNodes.get(j));
 				int currentPathLargest = getDistance(graph.getShortestDistance());
-				if (currentPathLargest > biggestDistance)
+				System.out.println("Distance for node" + graphNodes.get(i).getValue() + " to + " + graphNodes.get(j).getValue() + ": " + currentPathLargest);
+				if (currentPathLargest > biggestDistance){
 					biggestDistance = currentPathLargest;
-			}
+			}}
 			largest.put(getCurrentNode(graphNodes.get(i)), biggestDistance);
 		}
 	}
 
 	private void calculateBest() {
 		WeightedNode<T> currentBest = null;
-		int bestAverage = Integer.MAX_VALUE;
+		double bestAverage = Integer.MAX_VALUE;
 		for (WeightedNode<T> node : allNodes) {
-			int avg = (smallest.get(node) + largest.get(node)) / 2;
+			System.out.println("Node: " + node.getValue());
+			System.out.println("Smallest: " + smallest.get(node));
+			System.out.println("Largest: " + largest.get(node));
+			
+			double avg = (((double)smallest.get(node) + largest.get(node)) / 2);
 			if (avg < bestAverage) {
 				bestAverage = avg;
 				currentBest = node;
@@ -148,15 +153,18 @@ public class WeightedGraph<T> {
 
 	private int getDistance(SingleLinkedList<GraphNode<T>> path) {
 		int distance = 0;
-		Iterator<GraphNode<T>> allNodes = path.iterator();
-		while (allNodes.hasNext()) {
-			WeightedNode<T> source = getCurrentNode(allNodes.next());
-			if (allNodes.hasNext()) {
-				WeightedNode<T> destination = getCurrentNode(allNodes.next());
+		int counter = 0;
+
+		while (counter < path.count()) {
+			WeightedNode<T> source = getCurrentNode(path.get(counter));
+			++counter;
+			if (counter < path.count()) {
+				WeightedNode<T> destination = getCurrentNode(path.get(counter));
 				distance += source.getWeight(destination);
 			}
 		}
 		return distance;
+
 	}
 
 	public WeightedNode<T> getBestHub() {
@@ -190,6 +198,7 @@ public class WeightedGraph<T> {
 	public void setConnections(List<WeightedNode<T>> currentNodes, List<Connection<T>> allConnections) {
 		for (Connection<T> link : allConnections) {
 			link.getSource().addChild(link.getDestination(), link.getWeight());
+			link.getDestination().addChild(link.getSource(), link.getWeight());
 		}
 	}
 

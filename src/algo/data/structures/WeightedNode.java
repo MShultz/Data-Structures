@@ -43,7 +43,7 @@ public class WeightedNode<T>{
 		return neighborNodes;
 	}
 	public void clearNeighbors(){
-		this.neighborNodes = null;
+		this.neighborNodes = new ArrayList<Connection<T>>();
 	}
 	
 	public int getWeight(WeightedNode<T> destination){
