@@ -1,12 +1,19 @@
 package algo.data.structures;
 
-public class ArrayPriorityQueue<T> {
-	private final int INCREMENT_SIZE = 10;
+import sorting.library.Sorter;
+
+public class ArrayPriorityQueue {
+	private final int INCREMENT_SIZE = 1;
 	private PQNode[] queue = new PQNode[INCREMENT_SIZE];
 	private int count = 0;
 	
 	public boolean enqueue(int priority, int value){
-		return false;
+		if(count >= queue.length)
+			resizeArray();
+		queue[count] = new PQNode(priority, value);
+		Sorter.insertionSort(queue);
+		++count;
+		return true;
 	}
 	public PQNode peek(){
 		return null;
@@ -22,6 +29,17 @@ public class ArrayPriorityQueue<T> {
 	
 	public String toString(){
 		return null;
+	}
+	
+	private void resizeArray(){
+		PQNode[] holding = new PQNode[queue.length];
+		System.arraycopy(queue, 0, holding, 0, queue.length);
+		queue = new PQNode[queue.length + INCREMENT_SIZE];
+		for(int i = 0; i < holding.length; ++i){
+			queue[i] = holding[i];
+		}
+		
+		
 	}
 //	a.	Enqueue(int priority, int value) – Takes the arguments and creates a new PQNode with this data, adds the node to the queue and adjusts the count.
 //	b.	Peek() – returns highest priority node of the queue (without removing it). Yes, return the whole node.
