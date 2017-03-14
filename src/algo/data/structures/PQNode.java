@@ -26,8 +26,24 @@ public class PQNode implements Comparable<PQNode>{
 
 	@Override
 	public int compareTo(PQNode arg0) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(this.priority < arg0.priority)
+			return -1;
+		else if(this.priority > arg0.priority)
+			return 1;
+		else{
+			 if(this.value < arg0.value)
+				return 1;
+			else if(this.value > arg0.value)
+				return -1;
+			else
+				return 0;
+		}
 	}
+
+	@Override
+	public String toString() {
+		return priority + ":" + value;
+	}
+	
 
 }
